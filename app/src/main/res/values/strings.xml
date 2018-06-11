@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Goals</string>
+    <string name="goal_action_delete">Delete</string>
+    <string name="goal_action_archive">Archive</string>
+    <string name="goal_title_hint">Title</string>
+    <string name="goal_desc_hint">Description</string>
+</resources>
