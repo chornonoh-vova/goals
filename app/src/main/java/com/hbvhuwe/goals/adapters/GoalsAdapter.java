@@ -1,5 +1,6 @@
 package com.hbvhuwe.goals.adapters;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         TextView goalTitle;
         TextView goalDesc;
         TextView goalCreated;
+        TextView goalCompleted;
         ProgressBar goalProgress;
         Button actionArchive;
         Button actionDelete;
@@ -42,6 +44,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             goalTitle = itemView.findViewById(R.id.goal_item_title);
             goalDesc = itemView.findViewById(R.id.goal_item_desc);
             goalCreated = itemView.findViewById(R.id.goal_item_created);
+            goalCompleted = itemView.findViewById(R.id.goal_item_completed);
             goalProgress = itemView.findViewById(R.id.goal_item_progress);
             actionArchive = itemView.findViewById(R.id.goal_action_archive);
             actionDelete = itemView.findViewById(R.id.goal_action_delete);
@@ -77,6 +80,10 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         holder.goalDesc.setText(holder.goal.getDesc());
         holder.goalCreated.setText(holder.goal.getCreated());
         holder.goalProgress.setProgress((int) holder.goal.getPercent());
+        if (holder.goal.isCompleted()) {
+            holder.goalCompleted.setVisibility(View.VISIBLE);
+            holder.goalCompleted.setTextColor(Color.GREEN);
+        }
     }
 
     @Override

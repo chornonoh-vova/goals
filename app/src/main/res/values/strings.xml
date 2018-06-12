@@ -4,4 +4,5 @@
     <string name="goal_action_archive">Archive</string>
     <string name="goal_title_hint">Title</string>
     <string name="goal_desc_hint">Description</string>
+    <string name="goal_item_completed">Completed</string>
 </resources>

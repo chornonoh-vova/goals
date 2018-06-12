@@ -67,6 +67,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goal_item_desc" />
 
+        <TextView
+            android:id="@+id/goal_item_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/goal_item_completed"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/goal_action_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goal_action_delete" />
+
         <Button
             android:id="@+id/goal_action_archive"
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -99,5 +110,6 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/goal_action_archive"
             app:layout_constraintTop_toBottomOf="@+id/goal_item_created" />
+
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

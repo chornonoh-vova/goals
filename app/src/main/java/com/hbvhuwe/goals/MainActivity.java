@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewGoalC
         goalsList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new GoalsAdapter(provider.getGoals(), this);
         goalsList.setAdapter(adapter);
+        goalsList.setNestedScrollingEnabled(false);
     }
 
     @Override
