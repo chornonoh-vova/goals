@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мои цели</string>
+    <string name="goal_item_action_delete">Удалить</string>
+    <string name="goal_item_action_archive">Архивировать</string>
+    <string name="goal_item_completed">Завершено</string>
+    <string name="goal_dialog_title">Добавить новую цель</string>
+    <string name="goal_dialog_message">Какова ваша цель?</string>
+    <string name="goal_dialog_title_hint">Заголовок</string>
+    <string name="goal_dialog_desc_hint">Описание</string>
+    <string name="goal_dialog_ok">Готово</string>
+    <string name="goal_dialog_cancel">Отмена</string>
+</resources>

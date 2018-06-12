@@ -8,8 +8,8 @@
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:cardElevation="@dimen/cardview_default_elevation"
     app:cardMaxElevation="@dimen/cardview_default_elevation"
-    app:cardUseCompatPadding="false"
-    app:cardPreventCornerOverlap="true">
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="false">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -87,7 +87,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:text="@string/goal_action_archive"
+            android:text="@string/goal_item_action_archive"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +103,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:text="@string/goal_action_delete"
+            android:text="@string/goal_item_action_delete"
             android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

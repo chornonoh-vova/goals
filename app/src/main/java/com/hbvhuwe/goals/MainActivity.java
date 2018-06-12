@@ -58,10 +58,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewGoalC
     }
 
     private void initGoals() {
-        goalsList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new GoalsAdapter(provider.getGoals(), this);
-        goalsList.setAdapter(adapter);
-        goalsList.setNestedScrollingEnabled(false);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            goalsList.setLayoutManager(new GridLayoutManager(this, 1));
+            adapter = new GoalsAdapter(provider.getGoals(), this);
+            goalsList.setAdapter(adapter);
+            goalsList.setNestedScrollingEnabled(false);
+        } else {
+            goalsList.setLayoutManager(new GridLayoutManager(this, 2));
+            adapter = new GoalsAdapter(provider.getGoals(), this);
+            goalsList.setAdapter(adapter);
+            goalsList.setNestedScrollingEnabled(false);
+        }
     }
 
     @Override
@@ -77,10 +84,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewGoalC
         final EditText goalDesc = dialogView.findViewById(R.id.goal_desc);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Add new goal")
-                .setMessage("What is your task?")
+                .setTitle(R.string.goal_dialog_title)
+                .setMessage(R.string.goal_dialog_message)
                 .setView(dialogView)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.goal_dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Goal goal = new Goal();
@@ -93,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewGoalC
                         initGoals();
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.goal_dialog_cancel, null)
                 .create();
         dialog.show();
     }

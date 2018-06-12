@@ -1,8 +1,19 @@
 <resources>
-    <string name="app_name">Goals</string>
-    <string name="goal_action_delete">Delete</string>
-    <string name="goal_action_archive">Archive</string>
-    <string name="goal_title_hint">Title</string>
-    <string name="goal_desc_hint">Description</string>
+    <!--Application-->
+    <string name="app_name">My goals</string>
+
+    <!--Goal item resources-->
+    <string name="goal_item_action_delete">Delete</string>
+    <string name="goal_item_action_archive">Archive</string>
     <string name="goal_item_completed">Completed</string>
+
+    <!--Add goal dialog resources-->
+    <string name="goal_dialog_title">Add new goal</string>
+    <string name="goal_dialog_message">What is your goal?</string>
+
+    <string name="goal_dialog_title_hint">Title</string>
+    <string name="goal_dialog_desc_hint">Description</string>
+
+    <string name="goal_dialog_ok">Add</string>
+    <string name="goal_dialog_cancel">Cancel</string>
 </resources>
