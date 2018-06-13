@@ -1,15 +1,19 @@
 package com.hbvhuwe.goals;
 
 import android.content.DialogInterface;
-import android.content.res.Configuration;
+import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.EditText;
 
@@ -18,14 +22,17 @@ import com.hbvhuwe.goals.model.Goal;
 import com.hbvhuwe.goals.providers.DataProvider;
 import com.hbvhuwe.goals.providers.SQLiteProvider;
 import com.hbvhuwe.goals.providers.db.DbHelper;
+import com.hbvhuwe.goals.swipe.SwipeHelper;
+import com.hbvhuwe.goals.swipe.GoalSwipeListener;
 
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewGoalClickListener {
+public class MainActivity extends AppCompatActivity implements GoalSwipeListener {
 
     private DataProvider provider;
     private RecyclerView goalsList;
     private GoalsAdapter adapter;
+    private CoordinatorLayout coordinatorLayout;
 
     private FloatingActionButton addButton;
 
@@ -46,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewGoalC
 
         goalsList = findViewById(R.id.goals_list);
         addButton = findViewById(R.id.add_button);
+        coordinatorLayout = findViewById(R.id.coordinator_layout);
 
         initGoals();
 
@@ -58,23 +66,33 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewGoalC
     }
 
     private void initGoals() {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            goalsList.setLayoutManager(new GridLayoutManager(this, 1));
-            adapter = new GoalsAdapter(provider.getGoals(), this);
-            goalsList.setAdapter(adapter);
-            goalsList.setNestedScrollingEnabled(false);
-        } else {
-            goalsList.setLayoutManager(new GridLayoutManager(this, 2));
-            adapter = new GoalsAdapter(provider.getGoals(), this);
-            goalsList.setAdapter(adapter);
-            goalsList.setNestedScrollingEnabled(false);
-        }
+        adapter = new GoalsAdapter(provider.getGoals());
+
+        goalsList.setLayoutManager(new LinearLayoutManager(this));
+        goalsList.setItemAnimator(new DefaultItemAnimator());
+        goalsList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        goalsList.setNestedScrollingEnabled(false);
+        goalsList.setAdapter(adapter);
+
+        ItemTouchHelper.SimpleCallback helper = new SwipeHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+        new ItemTouchHelper(helper).attachToRecyclerView(goalsList);
     }
 
     @Override
-    public void onDelete(Goal goal, int position) {
+    public void onSwipe(final Goal goal, int direction, final int position) {
         provider.deleteGoalById(goal.getId());
-        initGoals();
+        adapter.deleteItem(position);
+
+        Snackbar undo = Snackbar.make(coordinatorLayout, goal.getTitle() + " removed!", Snackbar.LENGTH_LONG);
+        undo.setAction(R.string.undo_action, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                provider.addGoal(goal);
+                adapter.addItem(goal, position);
+            }
+        });
+        undo.setActionTextColor(Color.YELLOW);
+        undo.show();
     }
 
     public void onAdd() {
@@ -91,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewGoalC
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Goal goal = new Goal();
+                        goal.setId(-1);
                         goal.setTitle(String.valueOf(goalTitle.getText()));
                         goal.setDesc(String.valueOf(goalDesc.getText()));
                         goal.setPercent(0.0d);

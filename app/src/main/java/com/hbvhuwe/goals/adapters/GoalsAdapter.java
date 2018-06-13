@@ -1,42 +1,37 @@
 package com.hbvhuwe.goals.adapters;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hbvhuwe.goals.R;
-import com.hbvhuwe.goals.RecyclerViewGoalClickListener;
 import com.hbvhuwe.goals.model.Goal;
-import com.hbvhuwe.goals.providers.DataProvider;
 
 import java.util.List;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
 
     private List<Goal> dataset;
-    private static RecyclerViewGoalClickListener listener;
 
-    public GoalsAdapter(List<Goal> dataset, RecyclerViewGoalClickListener listener) {
+    public GoalsAdapter(List<Goal> dataset) {
         this.dataset = dataset;
-        this.listener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        Goal goal;
+        public Goal goal;
 
-        TextView goalTitle;
-        TextView goalDesc;
-        TextView goalCreated;
-        TextView goalCompleted;
+        TextView goalTitle, goalDesc, goalCreated;
+        ImageView goalDone;
         ProgressBar goalProgress;
-        Button actionArchive;
-        Button actionDelete;
+        public ConstraintLayout viewForeground;
+        public RelativeLayout viewBackground;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -44,22 +39,15 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             goalTitle = itemView.findViewById(R.id.goal_item_title);
             goalDesc = itemView.findViewById(R.id.goal_item_desc);
             goalCreated = itemView.findViewById(R.id.goal_item_created);
-            goalCompleted = itemView.findViewById(R.id.goal_item_completed);
+            goalDone = itemView.findViewById(R.id.goal_item_done);
             goalProgress = itemView.findViewById(R.id.goal_item_progress);
-            actionArchive = itemView.findViewById(R.id.goal_action_archive);
-            actionDelete = itemView.findViewById(R.id.goal_action_delete);
+            viewBackground = itemView.findViewById(R.id.goal_item_background);
+            viewForeground = itemView.findViewById(R.id.goal_item_foreground);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO: 06/06/18 switch to details
-                }
-            });
-
-            actionDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onDelete(goal, getLayoutPosition());
                 }
             });
         }
@@ -80,14 +68,24 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         holder.goalDesc.setText(holder.goal.getDesc());
         holder.goalCreated.setText(holder.goal.getCreated());
         holder.goalProgress.setProgress((int) holder.goal.getPercent());
-        if (holder.goal.isCompleted()) {
-            holder.goalCompleted.setVisibility(View.VISIBLE);
-            holder.goalCompleted.setTextColor(Color.GREEN);
+        if (!holder.goal.isCompleted()) {
+            holder.goalDone.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public int getItemCount() {
         return dataset.size();
+    }
+
+
+    public void deleteItem(int position) {
+        dataset.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void addItem(Goal goal, int position) {
+        dataset.add(position, goal);
+        notifyItemInserted(position);
     }
 }

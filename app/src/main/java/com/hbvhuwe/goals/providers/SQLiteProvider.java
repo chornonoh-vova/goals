@@ -99,6 +99,9 @@ public class SQLiteProvider implements DataProvider {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        if (goal.getId() != -1) {
+            values.put(GoalEntry._ID, goal.getId());
+        }
         values.put(GoalEntry.COLUMN_TITLE, goal.getTitle());
         values.put(GoalEntry.COLUMN_DESC, goal.getDesc());
         values.put(GoalEntry.COLUMN_COMPLETED, goal.isCompleted() ? 1 : 0);
