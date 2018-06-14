@@ -2,12 +2,12 @@ package com.hbvhuwe.goals;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,13 +17,14 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.EditText;
 
+import com.hbvhuwe.goals.adapters.BaseAdapter;
 import com.hbvhuwe.goals.adapters.GoalsAdapter;
 import com.hbvhuwe.goals.model.Goal;
 import com.hbvhuwe.goals.providers.DataProvider;
 import com.hbvhuwe.goals.providers.SQLiteProvider;
 import com.hbvhuwe.goals.providers.db.DbHelper;
-import com.hbvhuwe.goals.swipe.SwipeHelper;
 import com.hbvhuwe.goals.swipe.GoalSwipeListener;
+import com.hbvhuwe.goals.swipe.SwipeHelper;
 
 import java.util.Date;
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
 
     private DataProvider provider;
     private RecyclerView goalsList;
-    private GoalsAdapter adapter;
+    private BaseAdapter adapter;
     private CoordinatorLayout coordinatorLayout;
 
     private FloatingActionButton addButton;

@@ -15,9 +15,8 @@ import com.hbvhuwe.goals.model.Stage;
 
 import java.util.List;
 
-public class StagesAdapter extends RecyclerView.Adapter<StagesAdapter.ViewHolder> {
+public class StagesAdapter extends BaseAdapter<StagesAdapter.ViewHolder, Stage> {
     private final StageCheckedListener listener;
-    private List<Stage> dataset;
 
     public StagesAdapter(List<Stage> dataset, StageCheckedListener listener) {
         this.dataset = dataset;
@@ -58,21 +57,6 @@ public class StagesAdapter extends RecyclerView.Adapter<StagesAdapter.ViewHolder
         holder.stage = dataset.get(position);
         holder.stageTitle.setText(holder.stage.getTitle());
         holder.stageTitle.setChecked(holder.stage.isCompleted());
-    }
-
-    @Override
-    public int getItemCount() {
-        return dataset.size();
-    }
-
-    public void deleteItem(int position) {
-        dataset.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void addItem(Stage stage, int position) {
-        dataset.add(position, stage);
-        notifyItemInserted(position);
     }
 
     public interface StageCheckedListener {

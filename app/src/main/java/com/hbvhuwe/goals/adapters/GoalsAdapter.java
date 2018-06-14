@@ -18,9 +18,7 @@ import com.hbvhuwe.goals.model.Goal;
 
 import java.util.List;
 
-public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
-
-    private List<Goal> dataset;
+public class GoalsAdapter extends BaseAdapter<GoalsAdapter.ViewHolder, Goal> {
 
     public GoalsAdapter(List<Goal> dataset) {
         this.dataset = dataset;
@@ -75,21 +73,5 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         if (!holder.goal.isCompleted()) {
             holder.goalDone.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return dataset.size();
-    }
-
-
-    public void deleteItem(int position) {
-        dataset.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void addItem(Goal goal, int position) {
-        dataset.add(position, goal);
-        notifyItemInserted(position);
     }
 }
