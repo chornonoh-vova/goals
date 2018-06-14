@@ -56,6 +56,12 @@ public interface DataProvider {
      */
     void addStage(int goalId, Stage stage);
 
+    void updateGoal(Goal goal);
+
+    void updateStage(Stage stage);
+
+    void checkStage(int goalId, int stageId, boolean check);
+
     /**
      * Deletes goal with specified id<br>
      * If there are stages in goal, delete them too

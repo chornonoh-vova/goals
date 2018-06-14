@@ -1,6 +1,5 @@
 package com.hbvhuwe.goals.model;
 
-import java.util.Date;
 
 public class Goal {
     private int id;

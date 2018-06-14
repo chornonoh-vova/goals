@@ -17,8 +17,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:titleTextColor="@android:color/white">
+            android:background="@android:color/background_light"
+            android:elevation="4dp"
+            android:theme="@style/Theme.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
@@ -34,18 +36,21 @@
             android:id="@+id/goals_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/goal_list_item" />
+            android:scrollbars="vertical"
+            tools:listitem="@layout/goals_list_item" />
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_button"
+        android:id="@+id/add_goal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/ic_add"
         android:tint="@android:color/white"
         app:backgroundTint="@color/colorAccent"
-        app:fabSize="normal" />
+        app:fabSize="normal"
+        app:useCompatPadding="false"
+        android:focusable="true" />
 </android.support.design.widget.CoordinatorLayout>

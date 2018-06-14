@@ -1,5 +1,6 @@
 package com.hbvhuwe.goals.adapters;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hbvhuwe.goals.R;
+import com.hbvhuwe.goals.StagesActivity;
 import com.hbvhuwe.goals.model.Goal;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         public ConstraintLayout viewForeground;
         public RelativeLayout viewBackground;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             goalTitle = itemView.findViewById(R.id.goal_item_title);
@@ -47,7 +49,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 06/06/18 switch to details
+                    Intent intent = new Intent(itemView.getContext(), StagesActivity.class);
+                    intent.putExtra("goalId", goal.getId());
+                    itemView.getContext().startActivity(intent);
                 }
             });
         }
@@ -58,7 +62,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.goal_list_item, parent,  false));
+                .inflate(R.layout.goals_list_item, parent,  false));
     }
 
     @Override

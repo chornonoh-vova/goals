@@ -18,4 +18,5 @@
     <string name="goal_dialog_cancel">Cancel</string>
     <string name="undo_action">UNDO</string>
     <string name="delete">Delete</string>
+    <string name="stages_title_text">Stages</string>
 </resources>

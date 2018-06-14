@@ -117,6 +117,21 @@ public class SQLiteProvider implements DataProvider {
     }
 
     @Override
+    public void updateGoal(Goal goal) {
+
+    }
+
+    @Override
+    public void updateStage(Stage stage) {
+
+    }
+
+    @Override
+    public void checkStage(int goalId, int stageId, boolean check) {
+
+    }
+
+    @Override
     public void deleteGoalById(int goalId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 

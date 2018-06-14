@@ -10,5 +10,7 @@
     <string name="goal_dialog_desc_hint">Описание</string>
     <string name="goal_dialog_ok">Готово</string>
     <string name="goal_dialog_cancel">Отмена</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Удалить</string>
+    <string name="undo_action">Отмена</string>
+    <string name="stages_title_text">Stages</string>
 </resources>

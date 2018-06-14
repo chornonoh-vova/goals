@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
         provider = new SQLiteProvider(new DbHelper(getApplicationContext()));
 
         goalsList = findViewById(R.id.goals_list);
-        addButton = findViewById(R.id.add_button);
+        addButton = findViewById(R.id.add_goal);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
 
         initGoals();
@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
     public void onAdd() {
         final View dialogView = getLayoutInflater().inflate(R.layout.add_dialog, null);
 
-        final EditText goalTitle = dialogView.findViewById(R.id.goal_title);
-        final EditText goalDesc = dialogView.findViewById(R.id.goal_desc);
+        final EditText goalTitle = dialogView.findViewById(R.id.goal_dialog_title);
+        final EditText goalDesc = dialogView.findViewById(R.id.goal_dialog_desc);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.goal_dialog_title)
