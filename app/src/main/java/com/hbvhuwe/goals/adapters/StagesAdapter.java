@@ -49,7 +49,7 @@ public class StagesAdapter extends BaseAdapter<StagesAdapter.ViewHolder, Stage> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.stages_list_item, null));
+                .inflate(R.layout.item_stages_list, parent, false));
     }
 
     @Override

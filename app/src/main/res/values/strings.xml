@@ -19,4 +19,7 @@
     <string name="undo_action">UNDO</string>
     <string name="delete">Delete</string>
     <string name="stages_title_text">Stages</string>
+    <string name="goal_item_done_desc">Done</string>
+    <string name="add_desc">Add</string>
+    <string name="delete_desc">Delete</string>
 </resources>

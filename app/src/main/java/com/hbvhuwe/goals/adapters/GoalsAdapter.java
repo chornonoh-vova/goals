@@ -60,7 +60,7 @@ public class GoalsAdapter extends BaseAdapter<GoalsAdapter.ViewHolder, Goal> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.goals_list_item, parent,  false));
+                .inflate(R.layout.item_goals_list, parent,  false));
     }
 
     @Override

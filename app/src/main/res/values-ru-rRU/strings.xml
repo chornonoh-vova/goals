@@ -12,5 +12,8 @@
     <string name="goal_dialog_cancel">Отмена</string>
     <string name="delete">Удалить</string>
     <string name="undo_action">Отмена</string>
-    <string name="stages_title_text">Stages</string>
+    <string name="stages_title_text">Стадии</string>
+    <string name="goal_item_done_desc">Завершено</string>
+    <string name="add_desc">Добавить</string>
+    <string name="delete_desc">Удалить</string>
 </resources>

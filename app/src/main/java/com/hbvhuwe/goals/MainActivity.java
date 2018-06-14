@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
     private BaseAdapter adapter;
     private CoordinatorLayout coordinatorLayout;
 
-    private FloatingActionButton addButton;
-
     @Override
     protected void onDestroy() {
         ((SQLiteProvider)provider).mDbHelper.close();
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
         provider = new SQLiteProvider(new DbHelper(getApplicationContext()));
 
         goalsList = findViewById(R.id.goals_list);
-        addButton = findViewById(R.id.add_goal);
+        FloatingActionButton addButton = findViewById(R.id.add_goal);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
 
         initGoals();
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
     }
 
     public void onAdd() {
-        final View dialogView = getLayoutInflater().inflate(R.layout.add_dialog, null);
+        final View dialogView = getLayoutInflater().inflate(R.layout.add_goal_dialog, coordinatorLayout);
 
         final EditText goalTitle = dialogView.findViewById(R.id.goal_dialog_title);
         final EditText goalDesc = dialogView.findViewById(R.id.goal_dialog_desc);
