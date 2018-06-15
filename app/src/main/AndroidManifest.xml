@@ -20,7 +20,8 @@
         <activity
             android:name=".StagesActivity"
             android:label="@string/stages_title_text"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

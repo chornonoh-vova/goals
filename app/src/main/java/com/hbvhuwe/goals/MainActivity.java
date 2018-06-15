@@ -1,5 +1,6 @@
 package com.hbvhuwe.goals;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -95,7 +96,8 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
     }
 
     public void onAdd() {
-        final View dialogView = getLayoutInflater().inflate(R.layout.add_goal_dialog, coordinatorLayout);
+        @SuppressLint("InflateParams")
+        final View dialogView = getLayoutInflater().inflate(R.layout.add_goal_dialog, null);
 
         final EditText goalTitle = dialogView.findViewById(R.id.goal_dialog_title);
         final EditText goalDesc = dialogView.findViewById(R.id.goal_dialog_desc);
