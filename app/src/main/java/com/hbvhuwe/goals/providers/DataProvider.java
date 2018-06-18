@@ -23,27 +23,11 @@ public interface DataProvider {
     Goal getGoalById(int goalId);
 
     /**
-     * Get all fully completed goals
-     * @return completed goals list or empty
-     */
-    List<Goal> getGoalsCompleted();
-
-    /**
      * Get all stages for specific goals
      * @param goalId id of goal
      * @return list of stages, needed to complete this goal or empty list
      */
     List<Stage> getStages(int goalId);
-
-    List<Stage> getStagesCompleted(int goalId);
-
-    /**
-     * Get specific stage of specific goal
-     * @param goalId id of goal
-     * @param stageId id of stage
-     * @return stage object or null
-     */
-    Stage getStageById(int goalId, int stageId);
 
     /**
      * Add new goal
@@ -58,7 +42,7 @@ public interface DataProvider {
      */
     void addStage(int goalId, Stage stage);
 
-    void updateGoal(Goal goal);
+    void updateGoal(int goalId, String newTitle, String newDesc, double newProgress);
 
     void checkStage(int goalId, int stageId, boolean check);
 

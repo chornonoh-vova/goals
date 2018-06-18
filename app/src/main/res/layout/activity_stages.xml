@@ -37,22 +37,6 @@
             android:layout_height="match_parent"
             tools:context=".StagesActivity">
 
-            <TextView
-                android:id="@+id/goal_created"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:drawableLeft="@drawable/ic_date"
-                android:gravity="center_vertical|end"
-                android:text="TextView"
-                android:textAlignment="textEnd"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/goal_desc" />
-
             <EditText
                 android:id="@+id/goal_title"
                 android:layout_width="0dp"
@@ -62,11 +46,11 @@
                 android:layout_marginTop="8dp"
                 android:elevation="1dp"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:hint="@string/dialog_title_hint"
+                android:inputType="text"
                 android:nextFocusLeft="@id/goal_title"
                 android:nextFocusUp="@id/goal_title"
                 android:singleLine="true"
-                android:hint="@string/dialog_title_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,12 +64,28 @@
                 android:layout_marginTop="8dp"
                 android:elevation="1dp"
                 android:ems="10"
-                android:inputType="textMultiLine"
                 android:hint="@string/dialog_desc_hint"
+                android:inputType="text"
                 android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/goal_title" />
+
+            <TextView
+                android:id="@+id/goal_created"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:drawableStart="@drawable/ic_date"
+                android:gravity="center_vertical|end"
+                android:text="TextView"
+                android:textAlignment="textEnd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/goal_desc" />
 
             <View
                 android:id="@+id/divider"
@@ -141,6 +141,20 @@
                 app:layout_constraintTop_toTopOf="@+id/stages_title"
                 app:srcCompat="@drawable/ic_add" />
 
+            <TextView
+                android:id="@+id/stages_list_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/stages_list_empty_text"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/stages_list"
                 android:layout_width="0dp"
@@ -148,13 +162,13 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider"
+                app:layout_constraintTop_toBottomOf="@+id/stages_list_empty"
                 tools:listitem="@layout/item_stages_list" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
+
 </android.support.design.widget.CoordinatorLayout>

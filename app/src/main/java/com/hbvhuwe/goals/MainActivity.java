@@ -66,7 +66,19 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initGoals();
+    }
+
     private void initGoals() {
+        if (provider.getGoals().isEmpty()) {
+            findViewById(R.id.goals_list_empty).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.goals_list_empty).setVisibility(View.INVISIBLE);
+        }
+
         adapter = new GoalsAdapter(provider.getGoals());
 
         goalsList.setLayoutManager(new LinearLayoutManager(this));
@@ -90,10 +102,12 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
             public void onClick(View v) {
                 provider.addGoal(goal);
                 adapter.addItem(goal, position);
+                initGoals();
             }
         });
         undo.setActionTextColor(Color.YELLOW);
         undo.show();
+        initGoals();
     }
 
     public void onAdd() {
@@ -120,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
                         goal.setCompleted(false);
                         goal.setCreated(dateFormat.format(new Date()));
                         provider.addGoal(goal);
-                        adapter.addItem(goal, 0);
+                        initGoals();
                     }
                 })
                 .setNegativeButton(R.string.dialog_cancel, null)

@@ -24,4 +24,6 @@
     <string name="delete_desc">Delete</string>
     <string name="stage_dialog_title">Add new stage</string>
     <string name="stage_dialog_message">What stage?</string>
+    <string name="goals_list_empty_text">Goal list is empty!\nClick + button to add one</string>
+    <string name="stages_list_empty_text">Stages list is empty!\nClick + button to add one</string>
 </resources>

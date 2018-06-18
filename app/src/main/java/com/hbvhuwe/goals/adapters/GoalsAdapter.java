@@ -70,7 +70,7 @@ public class GoalsAdapter extends BaseAdapter<GoalsAdapter.ViewHolder, Goal> {
             holder.goalDesc.setVisibility(View.GONE);
         }
         holder.goalCreated.setText(holder.goal.getCreated());
-        holder.goalProgress.setText(holder.goal.getPercent() + " %");
+        holder.goalProgress.setText((int)holder.goal.getPercent() + " %");
         if (!holder.goal.isCompleted()) {
             holder.goalDone.setVisibility(View.INVISIBLE);
         }

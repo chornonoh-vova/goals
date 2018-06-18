@@ -39,6 +39,17 @@
             tools:listitem="@layout/item_goals_list" />
     </android.support.v4.widget.NestedScrollView>
 
+    <TextView
+        android:id="@+id/goals_list_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/goals_list_empty_text"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_anchorGravity="top|center_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_goal"
         android:layout_width="wrap_content"

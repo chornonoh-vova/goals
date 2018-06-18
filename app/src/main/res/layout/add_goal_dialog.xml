@@ -29,7 +29,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/dialog_desc_hint"
-        android:inputType="textMultiLine"
+        android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

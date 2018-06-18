@@ -1,10 +1,8 @@
 package com.hbvhuwe.goals;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,7 +39,6 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
     private TextView goalCreated;
     private ProgressBar goalProgress;
     private RecyclerView stagesList;
-    private ImageButton addStage;
 
     private CoordinatorLayout stagesLayout;
 
@@ -61,7 +59,7 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
         goalCreated = findViewById(R.id.goal_created);
         goalProgress = findViewById(R.id.goal_progress);
         stagesList = findViewById(R.id.stages_list);
-        addStage = findViewById(R.id.add_stage);
+        ImageButton addStage = findViewById(R.id.add_stage);
         stagesLayout = findViewById(R.id.stages_layout);
 
         goalTitle.setSelected(false);
@@ -75,6 +73,32 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
         initGoal();
 
         initStages();
+
+        goalTitle.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    onTitleUpdated();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        goalDesc.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    onDescUpdated();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         addStage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +117,12 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
     }
 
     private void initStages() {
+        if (provider.getStages(goalId).isEmpty()) {
+            findViewById(R.id.stages_list_empty).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.stages_list_empty).setVisibility(View.GONE);
+        }
+
         adapter = new StagesAdapter(provider.getStages(goalId), this);
 
         stagesList.setLayoutManager(new LinearLayoutManager(this));
@@ -115,23 +145,15 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
     @Override
     public void onChecked(int stageId, boolean isChecked) {
         provider.checkStage(goalId, stageId, isChecked);
+        initGoal();
     }
 
     @Override
     public void onSwipe(final Stage stage, int direction, final int position) {
         provider.deleteStageById(goalId, stage.getStageId());
         adapter.deleteItem(position);
-
-        Snackbar undo = Snackbar.make(stagesLayout, stage.getTitle() + " removed!", Snackbar.LENGTH_LONG);
-        undo.setAction(R.string.undo_action, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                provider.addStage(goalId, stage);
-                adapter.addItem(stage, position);
-            }
-        });
-        undo.setActionTextColor(Color.YELLOW);
-        undo.show();
+        initGoal();
+        initStages();
     }
 
     private void onAdd() {
@@ -150,7 +172,7 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
                         stage.setGoalId(goalId);
                         stage.setCompleted(false);
                         provider.addStage(goalId, stage);
-                        adapter.addItem(stage, 0);
+                        initStages();
                     }
                 })
                 .setNegativeButton(R.string.dialog_cancel, null)
@@ -159,10 +181,12 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
     }
 
     private void onTitleUpdated() {
-        // TODO: 18/06/18 implement goal title update
+        provider.updateGoal(goalId, goalTitle.getText().toString().trim(), null, -1);
+        initGoal();
     }
 
     private void onDescUpdated() {
-        // TODO: 18/06/18 implement goal description update
+        provider.updateGoal(goalId, null, goalDesc.getText().toString().trim(), -1);
+        initGoal();
     }
 }
