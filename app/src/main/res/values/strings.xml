@@ -7,19 +7,21 @@
     <string name="goal_item_action_archive">Archive</string>
     <string name="goal_item_completed">Completed</string>
 
-    <!--Add goal dialog resources-->
+    <!--Add dialog resources-->
     <string name="goal_dialog_title">Add new goal</string>
     <string name="goal_dialog_message">What is your goal?</string>
 
-    <string name="goal_dialog_title_hint">Title</string>
-    <string name="goal_dialog_desc_hint">Description</string>
+    <string name="dialog_title_hint">Title</string>
+    <string name="dialog_desc_hint">Description</string>
+    <string name="dialog_ok">Add</string>
+    <string name="dialog_cancel">Cancel</string>
 
-    <string name="goal_dialog_ok">Add</string>
-    <string name="goal_dialog_cancel">Cancel</string>
     <string name="undo_action">UNDO</string>
     <string name="delete">Delete</string>
     <string name="stages_title_text">Stages</string>
     <string name="goal_item_done_desc">Done</string>
     <string name="add_desc">Add</string>
     <string name="delete_desc">Delete</string>
+    <string name="stage_dialog_title">Add new stage</string>
+    <string name="stage_dialog_message">What stage?</string>
 </resources>

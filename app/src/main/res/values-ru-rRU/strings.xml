@@ -6,14 +6,16 @@
     <string name="goal_item_completed">Завершено</string>
     <string name="goal_dialog_title">Добавить новую цель</string>
     <string name="goal_dialog_message">Какова ваша цель?</string>
-    <string name="goal_dialog_title_hint">Заголовок</string>
-    <string name="goal_dialog_desc_hint">Описание</string>
-    <string name="goal_dialog_ok">Готово</string>
-    <string name="goal_dialog_cancel">Отмена</string>
+    <string name="dialog_title_hint">Заголовок</string>
+    <string name="dialog_desc_hint">Описание</string>
+    <string name="dialog_ok">Готово</string>
+    <string name="dialog_cancel">Отмена</string>
     <string name="delete">Удалить</string>
     <string name="undo_action">Отмена</string>
     <string name="stages_title_text">Стадии</string>
     <string name="goal_item_done_desc">Завершено</string>
     <string name="add_desc">Добавить</string>
     <string name="delete_desc">Удалить</string>
+    <string name="stage_dialog_title">Add new stage</string>
+    <string name="stage_dialog_message">What stage?</string>
 </resources>

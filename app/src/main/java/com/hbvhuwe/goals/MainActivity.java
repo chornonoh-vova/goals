@@ -27,6 +27,7 @@ import com.hbvhuwe.goals.providers.db.DbHelper;
 import com.hbvhuwe.goals.swipe.GoalSwipeListener;
 import com.hbvhuwe.goals.swipe.SwipeHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements GoalSwipeListener {
@@ -102,25 +103,27 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
         final EditText goalTitle = dialogView.findViewById(R.id.goal_dialog_title);
         final EditText goalDesc = dialogView.findViewById(R.id.goal_dialog_desc);
 
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.goal_dialog_title)
                 .setMessage(R.string.goal_dialog_message)
                 .setView(dialogView)
-                .setPositiveButton(R.string.goal_dialog_ok, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Goal goal = new Goal();
                         goal.setId(-1);
-                        goal.setTitle(String.valueOf(goalTitle.getText()));
-                        goal.setDesc(String.valueOf(goalDesc.getText()));
+                        goal.setTitle(String.valueOf(goalTitle.getText()).trim());
+                        goal.setDesc(String.valueOf(goalDesc.getText()).trim());
                         goal.setPercent(0.0d);
                         goal.setCompleted(false);
-                        goal.setCreated(new Date().toString());
+                        goal.setCreated(dateFormat.format(new Date()));
                         provider.addGoal(goal);
-                        initGoals();
+                        adapter.addItem(goal, 0);
                     }
                 })
-                .setNegativeButton(R.string.goal_dialog_cancel, null)
+                .setNegativeButton(R.string.dialog_cancel, null)
                 .create();
         dialog.show();
     }

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,9 +26,9 @@ public class GoalsAdapter extends BaseAdapter<GoalsAdapter.ViewHolder, Goal> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         public Goal goal;
 
-        TextView goalTitle, goalDesc, goalCreated;
-        ImageView goalDone;
-        ProgressBar goalProgress;
+        TextView goalTitle, goalCreated;
+        ImageView goalDesc, goalDone;
+        TextView goalProgress;
         public ConstraintLayout viewForeground;
         public RelativeLayout viewBackground;
 
@@ -67,9 +66,11 @@ public class GoalsAdapter extends BaseAdapter<GoalsAdapter.ViewHolder, Goal> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.goal = dataset.get(position);
         holder.goalTitle.setText(holder.goal.getTitle());
-        holder.goalDesc.setText(holder.goal.getDesc());
+        if (holder.goal.getDesc().isEmpty()) {
+            holder.goalDesc.setVisibility(View.GONE);
+        }
         holder.goalCreated.setText(holder.goal.getCreated());
-        holder.goalProgress.setProgress((int) holder.goal.getPercent());
+        holder.goalProgress.setText(holder.goal.getPercent() + " %");
         if (!holder.goal.isCompleted()) {
             holder.goalDone.setVisibility(View.INVISIBLE);
         }

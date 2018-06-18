@@ -35,6 +35,8 @@ public interface DataProvider {
      */
     List<Stage> getStages(int goalId);
 
+    List<Stage> getStagesCompleted(int goalId);
+
     /**
      * Get specific stage of specific goal
      * @param goalId id of goal
@@ -57,8 +59,6 @@ public interface DataProvider {
     void addStage(int goalId, Stage stage);
 
     void updateGoal(Goal goal);
-
-    void updateStage(Stage stage);
 
     void checkStage(int goalId, int stageId, boolean check);
 
