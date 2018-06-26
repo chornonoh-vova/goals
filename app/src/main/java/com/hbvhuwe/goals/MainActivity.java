@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements GoalSwipeListener
         FloatingActionButton addButton = findViewById(R.id.add_goal);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
 
-        initGoals();
+        //initGoals();
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
