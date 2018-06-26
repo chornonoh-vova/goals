@@ -44,10 +44,12 @@
         android:id="@+id/goals_list_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:paddingTop="16dp"
         android:text="@string/goals_list_empty_text"
         android:textAlignment="center"
-        android:visibility="invisible"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="invisible"
         app:layout_anchorGravity="top|center_vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

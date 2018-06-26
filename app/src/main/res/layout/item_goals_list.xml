@@ -11,7 +11,7 @@
         android:id="@+id/goal_item_foreground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:background="@color/colorItemBackground">
 
         <TextView
             android:id="@+id/goal_item_title"
