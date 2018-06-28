@@ -171,7 +171,7 @@ public class StagesActivity extends BaseActivity implements StagesAdapter.StageC
                         stage.setGoalId(goalId);
                         stage.setCompleted(false);
                         if (stage.getTitle().isEmpty()) {
-                            emptyTitleError();
+                            emptyError();
                             return;
                         }
                         provider.addStage(goalId, stage);
@@ -182,6 +182,10 @@ public class StagesActivity extends BaseActivity implements StagesAdapter.StageC
 
     private void update(boolean updateTitle, boolean updateDesc) {
         if (updateTitle) {
+            if (goalTitle.getText().toString().trim().isEmpty()) {
+                emptyError();
+                return;
+            }
             provider.updateGoal(goalId, goalTitle.getText().toString().trim(), null, -1);
             goalTitle.clearFocus();
         }
@@ -196,12 +200,14 @@ public class StagesActivity extends BaseActivity implements StagesAdapter.StageC
         toolbar.setTitle(R.string.stages_title_text);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         editingView.setVisibility(View.GONE);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void updateGoal(final boolean updateTitle, final boolean updateDesc) {
         toolbar.setTitle("");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         editingView.setVisibility(View.VISIBLE);
+        toolbar.setBackgroundColor(Color.WHITE);
         doneEditing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
