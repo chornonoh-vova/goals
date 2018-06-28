@@ -23,10 +23,16 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:elevation="4dp"
+            android:padding="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            />
+            android:visibility="visible"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <include layout="@layout/editing_layout" />
+
+        </android.support.v7.widget.Toolbar>
+
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -49,10 +55,10 @@
                 android:elevation="1dp"
                 android:ems="10"
                 android:hint="@string/dialog_title_hint"
-                android:inputType="text"
                 android:nextFocusLeft="@id/goal_title"
                 android:nextFocusUp="@id/goal_title"
-                android:singleLine="true"
+                android:singleLine="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -67,8 +73,7 @@
                 android:elevation="1dp"
                 android:ems="10"
                 android:hint="@string/dialog_desc_hint"
-                android:inputType="text"
-                android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
+                android:inputType="text|textMultiLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/goal_title" />
@@ -112,6 +117,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/stages_title_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/textColorPrimary"
                 app:layout_constraintEnd_toStartOf="@+id/add_stage"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider2" />

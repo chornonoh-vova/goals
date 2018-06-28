@@ -78,10 +78,10 @@ public class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         if (viewHolder instanceof GoalsAdapter.ViewHolder) {
-            ((GoalSwipeListener) listener).onSwipe(((GoalsAdapter.ViewHolder) viewHolder).goal,
+            listener.onSwipe(((GoalsAdapter.ViewHolder) viewHolder).goal,
                     direction, viewHolder.getAdapterPosition());
         } else if (viewHolder instanceof StagesAdapter.ViewHolder) {
-            ((StageSwipeListener) listener).onSwipe(((StagesAdapter.ViewHolder) viewHolder).stage,
+            listener.onSwipe(((StagesAdapter.ViewHolder) viewHolder).stage,
                     direction, viewHolder.getAdapterPosition());
         }
     }

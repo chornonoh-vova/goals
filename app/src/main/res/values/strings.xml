@@ -13,6 +13,7 @@
 
     <string name="dialog_title_hint">Title</string>
     <string name="dialog_desc_hint">Description</string>
+    <string name="dialog_error_message">Title cannot be empty!</string>
     <string name="dialog_ok">Add</string>
     <string name="dialog_cancel">Cancel</string>
 
@@ -26,4 +27,5 @@
     <string name="stage_dialog_message">What stage?</string>
     <string name="goals_list_empty_text">Goal list is empty!\nClick + button to add one</string>
     <string name="stages_list_empty_text">Stages list is empty!\nClick + button to add one</string>
+    <string name="stages_editing_title">Edit</string>
 </resources>

@@ -39,7 +39,7 @@ public class StagesAdapter extends BaseAdapter<StagesAdapter.ViewHolder, Stage> 
             stageTitle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    listener.onChecked(stage.getStageId(), isChecked);
+                    listener.onChecked(stage.getId(), isChecked);
                 }
             });
         }

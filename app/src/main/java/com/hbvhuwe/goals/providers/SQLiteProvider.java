@@ -89,7 +89,7 @@ public class SQLiteProvider implements DataProvider {
         values.put(GoalEntry.COLUMN_PERCENT, goal.getPercent());
         values.put(GoalEntry.COLUMN_CREATED, goal.getCreated());
 
-        db.insert(GoalEntry.TABLE_NAME, null, values);
+        long count = db.insert(GoalEntry.TABLE_NAME, null, values);
     }
 
     @Override
@@ -98,10 +98,15 @@ public class SQLiteProvider implements DataProvider {
 
         ContentValues values = new ContentValues();
         values.put(StageEntry.COLUMN_TITLE, stage.getTitle());
-        values.put(StageEntry.COLUMN_GOAL_ID, stage.getGoalId());
+        values.put(StageEntry.COLUMN_GOAL_ID, goalId);
         values.put(StageEntry.COLUMN_COMPLETED, stage.isCompleted() ? 1 : 0);
 
-        db.insert(StageEntry.TABLE_NAME, null, values);
+        long count = db.insert(StageEntry.TABLE_NAME, null, values);
+
+        double stagesTotal = getStages(goalId).size();
+        double stagesCompleted = getStagesCompleted(goalId).size();
+
+        updateGoal(goalId, null, null, (stagesCompleted / stagesTotal) * 100d);
     }
 
     @Override
@@ -204,7 +209,7 @@ public class SQLiteProvider implements DataProvider {
 
     private Stage getStage(Cursor cursor) {
         Stage stage = new Stage();
-        stage.setStageId(cursor.getInt(cursor.getColumnIndexOrThrow(StageEntry._ID)));
+        stage.setId(cursor.getInt(cursor.getColumnIndexOrThrow(StageEntry._ID)));
         stage.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(StageEntry.COLUMN_TITLE)));
         stage.setCompleted(cursor.getInt(cursor.getColumnIndexOrThrow(StageEntry.COLUMN_COMPLETED)) != 0);
         return stage;

@@ -1,66 +1,58 @@
 package com.hbvhuwe.goals;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hbvhuwe.goals.adapters.BaseAdapter;
 import com.hbvhuwe.goals.adapters.StagesAdapter;
 import com.hbvhuwe.goals.model.Goal;
+import com.hbvhuwe.goals.model.Model;
 import com.hbvhuwe.goals.model.Stage;
-import com.hbvhuwe.goals.providers.DataProvider;
-import com.hbvhuwe.goals.providers.SQLiteProvider;
-import com.hbvhuwe.goals.providers.db.DbHelper;
-import com.hbvhuwe.goals.swipe.StageSwipeListener;
-import com.hbvhuwe.goals.swipe.SwipeHelper;
 
 import java.util.Objects;
 
-public class StagesActivity extends AppCompatActivity implements StageSwipeListener,
-        StagesAdapter.StageCheckedListener {
+public class StagesActivity extends BaseActivity implements StagesAdapter.StageCheckedListener {
     private int goalId;
-    private DataProvider provider;
 
     private EditText goalTitle, goalDesc;
     private TextView goalCreated;
     private ProgressBar goalProgress;
-    private RecyclerView stagesList;
 
-    private CoordinatorLayout stagesLayout;
+    private Toolbar toolbar;
 
-    private BaseAdapter adapter;
+    private RelativeLayout editingView;
+    private ImageButton doneEditing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stages);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.stages_title_text);
+        setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-        provider = new SQLiteProvider(new DbHelper(getApplicationContext()));
 
         goalTitle = findViewById(R.id.goal_title);
         goalDesc = findViewById(R.id.goal_desc);
         goalCreated = findViewById(R.id.goal_created);
         goalProgress = findViewById(R.id.goal_progress);
-        stagesList = findViewById(R.id.stages_list);
+        recyclerView = findViewById(R.id.stages_list);
         ImageButton addStage = findViewById(R.id.add_stage);
-        stagesLayout = findViewById(R.id.stages_layout);
+        editingView = findViewById(R.id.stages_editing_toolbar);
+        doneEditing = findViewById(R.id.done_editing);
+        ImageButton closeEditing = findViewById(R.id.close_editing);
+
+        coordinatorLayout = findViewById(R.id.stages_layout);
 
         goalTitle.setSelected(false);
 
@@ -72,31 +64,33 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
 
         initGoal();
 
-        initStages();
+        initRecyclerView();
 
-        goalTitle.setOnKeyListener(new View.OnKeyListener() {
+
+        closeEditing.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
-                    onTitleUpdated();
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+                update(false, false);
+                goalTitle.clearFocus();
+                goalDesc.clearFocus();
             }
         });
 
-        goalDesc.setOnKeyListener(new View.OnKeyListener() {
+        goalTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
-                    onDescUpdated();
-                    return true;
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    updateGoal(true, false);
                 }
-                return false;
+            }
+        });
+
+        goalDesc.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    updateGoal(false, true);
+                }
             }
         });
 
@@ -116,23 +110,16 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
         goalCreated.setText(goal.getCreated());
     }
 
-    private void initStages() {
+    @Override
+    protected void initRecyclerView() {
+        adapter = new StagesAdapter(provider.getStages(goalId), this);
         if (provider.getStages(goalId).isEmpty()) {
             findViewById(R.id.stages_list_empty).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.stages_list_empty).setVisibility(View.GONE);
         }
 
-        adapter = new StagesAdapter(provider.getStages(goalId), this);
-
-        stagesList.setLayoutManager(new LinearLayoutManager(this));
-        stagesList.setItemAnimator(new DefaultItemAnimator());
-        stagesList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
-        stagesList.setNestedScrollingEnabled(false);
-        stagesList.setAdapter(adapter);
-
-        ItemTouchHelper.SimpleCallback helper = new SwipeHelper(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(helper).attachToRecyclerView(stagesList);
+        super.initRecyclerView();
     }
 
     @Override
@@ -149,44 +136,77 @@ public class StagesActivity extends AppCompatActivity implements StageSwipeListe
     }
 
     @Override
-    public void onSwipe(final Stage stage, int direction, final int position) {
-        provider.deleteStageById(goalId, stage.getStageId());
+    public void onSwipe(final Model model, int direction, final int position) {
+        provider.deleteStageById(goalId, model.getId());
         adapter.deleteItem(position);
+
+        Snackbar undo = Snackbar.make(coordinatorLayout, model.getTitle() + " removed!", Snackbar.LENGTH_LONG);
+        undo.setAction(R.string.undo_action, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                provider.addStage(goalId, (Stage) model);
+                adapter.addItem(model, position);
+
+                initGoal();
+                initRecyclerView();
+            }
+        });
+        undo.setActionTextColor(Color.YELLOW);
+        undo.show();
+
         initGoal();
-        initStages();
+        initRecyclerView();
     }
 
     private void onAdd() {
-        final View dialogView = getLayoutInflater().inflate(R.layout.add_stage_dialog, null);
+        @SuppressLint("InflateParams") final View dialogView = getLayoutInflater().inflate(R.layout.add_stage_dialog, null);
         final EditText stageTitle = dialogView.findViewById(R.id.stage_dialog_title);
 
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.stage_dialog_title)
-                .setMessage(R.string.stage_dialog_message)
-                .setView(dialogView)
-                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+        super.onAdd(dialogView, R.string.stage_dialog_title, R.string.stage_dialog_message,
+                new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Stage stage = new Stage();
                         stage.setTitle(stageTitle.getText().toString().trim());
                         stage.setGoalId(goalId);
                         stage.setCompleted(false);
+                        if (stage.getTitle().isEmpty()) {
+                            emptyTitleError();
+                            return;
+                        }
                         provider.addStage(goalId, stage);
-                        initStages();
+                        initRecyclerView();
                     }
-                })
-                .setNegativeButton(R.string.dialog_cancel, null)
-                .create();
-        dialog.show();
+                });
     }
 
-    private void onTitleUpdated() {
-        provider.updateGoal(goalId, goalTitle.getText().toString().trim(), null, -1);
+    private void update(boolean updateTitle, boolean updateDesc) {
+        if (updateTitle) {
+            provider.updateGoal(goalId, goalTitle.getText().toString().trim(), null, -1);
+            goalTitle.clearFocus();
+        }
+
+        if (updateDesc) {
+            provider.updateGoal(goalId, null, goalDesc.getText().toString().trim(), -1);
+            goalDesc.clearFocus();
+        }
+
         initGoal();
+
+        toolbar.setTitle(R.string.stages_title_text);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        editingView.setVisibility(View.GONE);
     }
 
-    private void onDescUpdated() {
-        provider.updateGoal(goalId, null, goalDesc.getText().toString().trim(), -1);
-        initGoal();
+    private void updateGoal(final boolean updateTitle, final boolean updateDesc) {
+        toolbar.setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+        editingView.setVisibility(View.VISIBLE);
+        doneEditing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                update(updateTitle, updateDesc);
+            }
+        });
     }
 }

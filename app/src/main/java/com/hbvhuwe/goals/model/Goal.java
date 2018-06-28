@@ -1,29 +1,11 @@
 package com.hbvhuwe.goals.model;
 
 
-public class Goal {
-    private int id;
-    private String title;
+public class Goal extends Model {
     private String desc;
     private String created;
     private boolean completed;
     private double percent;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getDesc() {
         return desc;

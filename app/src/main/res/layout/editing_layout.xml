@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stages_editing_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="16dp"
+    android:visibility="gone"
+    tools:showIn="@layout/activity_stages">
+
+    <ImageButton
+        android:id="@+id/close_editing"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="false"
+        android:layout_centerVertical="true"
+        android:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_close" />
+
+    <TextView
+        android:id="@+id/editing_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/close_editing"
+        android:layout_toStartOf="@+id/done_editing"
+        android:padding="8dp"
+        android:text="@string/stages_editing_title"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <ImageButton
+        android:id="@+id/done_editing"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_done" />
+
+</RelativeLayout>
