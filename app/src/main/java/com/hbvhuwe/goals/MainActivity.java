@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity {
                         goal.setCompleted(false);
                         goal.setCreated(dateFormat.format(new Date()));
                         if (goal.getTitle().isEmpty()) {
-                            emptyTitleError();
+                            emptyError();
                             return;
                         }
                         provider.addGoal(goal);

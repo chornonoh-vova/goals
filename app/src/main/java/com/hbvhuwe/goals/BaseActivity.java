@@ -59,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeLis
         dialog.show();
     }
 
-    protected void emptyTitleError() {
+    protected void emptyError() {
         Snackbar error = Snackbar.make(coordinatorLayout, R.string.dialog_error_message, Snackbar.LENGTH_SHORT);
         error.show();
     }
