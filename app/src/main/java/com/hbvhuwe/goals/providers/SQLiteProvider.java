@@ -24,11 +24,19 @@ public class SQLiteProvider implements DataProvider {
     @Override
     public List<Goal> getGoals() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        String sortOrder = GoalEntry._ID + " DESC";
-        Cursor cursor = db.query(GoalEntry.TABLE_NAME, null, null, null, null, null, sortOrder);
+        Cursor cursor = db.query(GoalEntry.TABLE_NAME, null, null, null, null, null, null);
         List<Goal> goals = getGoalsList(cursor);
         cursor.close();
         return goals;
+    }
+
+    @Override
+    public int getGoalsCount() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor = db.query(GoalEntry.TABLE_NAME, null, null, null, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 
     @Override
@@ -36,8 +44,7 @@ public class SQLiteProvider implements DataProvider {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String selection = GoalEntry._ID + " = ?";
         String[] selectionArgs = {String.valueOf(goalId)};
-        String sortOrder = GoalEntry._ID + " DESC";
-        Cursor cursor = db.query(GoalEntry.TABLE_NAME, null, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = db.query(GoalEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
         Goal goal = null;
         if (cursor.moveToNext()) {
             goal = new Goal();
@@ -57,22 +64,31 @@ public class SQLiteProvider implements DataProvider {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String selection = StageEntry.COLUMN_GOAL_ID  + " = ?";
         String[] selectionArgs = {String.valueOf(goalId)};
-        String sortOrder = StageEntry._ID + " DESC";
-        Cursor cursor = db.query(StageEntry.TABLE_NAME, null, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = db.query(StageEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
         List<Stage> stages = getStagesList(cursor);
         cursor.close();
         return stages;
     }
 
-    private List<Stage> getStagesCompleted(int goalId) {
+    @Override
+    public int getStagesCount(int goalId) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String selection = StageEntry.COLUMN_GOAL_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(goalId)};
+        Cursor cursor = db.query(StageEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    private int getStagesCompletedCount(int goalId) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String selection = StageEntry.COLUMN_GOAL_ID  + " = ? and " + StageEntry.COLUMN_COMPLETED + " = ?";
         String[] selectionArgs = {String.valueOf(goalId), "1"};
-        String sortOrder = StageEntry._ID + " DESC";
-        Cursor cursor = db.query(StageEntry.TABLE_NAME, null, selection, selectionArgs, null, null, sortOrder);
-        List<Stage> stages = getStagesList(cursor);
+        Cursor cursor = db.query(StageEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
         cursor.close();
-        return stages;
+        return count;
     }
 
     @Override
@@ -103,8 +119,8 @@ public class SQLiteProvider implements DataProvider {
 
         long count = db.insert(StageEntry.TABLE_NAME, null, values);
 
-        double stagesTotal = getStages(goalId).size();
-        double stagesCompleted = getStagesCompleted(goalId).size();
+        double stagesTotal = getStagesCount(goalId);
+        double stagesCompleted = getStagesCompletedCount(goalId);
 
         updateGoal(goalId, null, null, (stagesCompleted / stagesTotal) * 100d);
     }
@@ -151,8 +167,8 @@ public class SQLiteProvider implements DataProvider {
 
         db.update(StageEntry.TABLE_NAME, values, selection, selectionArgs);
 
-        double stagesTotal = getStages(goalId).size();
-        double stagesCompleted = getStagesCompleted(goalId).size();
+        double stagesTotal = getStagesCount(goalId);
+        double stagesCompleted = getStagesCompletedCount(goalId);
 
         updateGoal(goalId, null, null, (stagesCompleted / stagesTotal) * 100d);
     }
@@ -174,8 +190,8 @@ public class SQLiteProvider implements DataProvider {
         String[] selectionArgs = { String.valueOf(goalId), String.valueOf(stageId) };
         db.delete(StageEntry.TABLE_NAME, selection, selectionArgs);
 
-        double stagesTotal = getStages(goalId).size();
-        double stagesCompleted = getStagesCompleted(goalId).size();
+        double stagesTotal = getStagesCount(goalId);
+        double stagesCompleted = getStagesCompletedCount(goalId);
 
         updateGoal(goalId, null, null, (stagesCompleted / stagesTotal) * 100d);
     }

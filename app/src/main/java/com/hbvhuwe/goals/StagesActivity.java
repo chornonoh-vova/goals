@@ -113,7 +113,7 @@ public class StagesActivity extends BaseActivity implements StagesAdapter.StageC
     @Override
     protected void initRecyclerView() {
         adapter = new StagesAdapter(provider.getStages(goalId), this);
-        if (provider.getStages(goalId).isEmpty()) {
+        if (provider.getStagesCount(goalId) == 0) {
             findViewById(R.id.stages_list_empty).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.stages_list_empty).setVisibility(View.GONE);

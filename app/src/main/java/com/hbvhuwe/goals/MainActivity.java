@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initRecyclerView() {
         adapter = new GoalsAdapter(provider.getGoals());
-        if (provider.getGoals().isEmpty()) {
+        if (provider.getGoalsCount() == 0) {
             findViewById(R.id.goals_list_empty).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.goals_list_empty).setVisibility(View.INVISIBLE);
