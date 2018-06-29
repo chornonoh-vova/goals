@@ -15,9 +15,12 @@ import com.hbvhuwe.goals.model.Goal;
 import com.hbvhuwe.goals.model.Model;
 import com.hbvhuwe.goals.providers.SQLiteProvider;
 import com.hbvhuwe.goals.providers.db.DbHelper;
+import com.hbvhuwe.goals.util.Comparators;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
     @Override
@@ -57,7 +60,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initRecyclerView() {
-        adapter = new GoalsAdapter(provider.getGoals());
+        List<Goal> list = provider.getGoals();
+        Collections.sort(provider.getGoals(), Comparators.BY_GOAL_DATE_ASC);
+
+        adapter = new GoalsAdapter(list);
         if (provider.getGoalsCount() == 0) {
             findViewById(R.id.goals_list_empty).setVisibility(View.VISIBLE);
         } else {

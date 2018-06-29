@@ -17,7 +17,10 @@ import com.hbvhuwe.goals.adapters.StagesAdapter;
 import com.hbvhuwe.goals.model.Goal;
 import com.hbvhuwe.goals.model.Model;
 import com.hbvhuwe.goals.model.Stage;
+import com.hbvhuwe.goals.util.Comparators;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class StagesActivity extends BaseActivity implements StagesAdapter.StageCheckedListener {
@@ -112,7 +115,10 @@ public class StagesActivity extends BaseActivity implements StagesAdapter.StageC
 
     @Override
     protected void initRecyclerView() {
-        adapter = new StagesAdapter(provider.getStages(goalId), this);
+        List<Stage> list = provider.getStages(goalId);
+        Collections.sort(list, Comparators.BY_STAGE_DATE_ASC);
+
+        adapter = new StagesAdapter(list, this);
         if (provider.getStagesCount(goalId) == 0) {
             findViewById(R.id.stages_list_empty).setVisibility(View.VISIBLE);
         } else {
