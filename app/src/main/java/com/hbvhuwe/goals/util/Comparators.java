@@ -17,22 +17,22 @@ public final class Comparators {
     public static final Comparator<Goal> BY_GOAL_DEFAULT = BY_DEFAULT;
     public static final Comparator<Goal> BY_GOAL_TITLE_ACS = compareGoalBy(true, true);
     public static final Comparator<Goal> BY_GOAL_TITLE_DESC = compareGoalBy(true, false);
-    public static final Comparator<Goal> BY_GOAL_DATE_ASC = compareGoalBy(false, true);
-    public static final Comparator<Goal> BY_GOAL_DATE_DESC = BY_GOAL_DEFAULT;
+    public static final Comparator<Goal> BY_GOAL_ID_ASC = compareGoalBy(false, true);
+    public static final Comparator<Goal> BY_GOAL_ID_DESC = BY_GOAL_DEFAULT;
 
     public static final Comparator<Stage> BY_STAGE_DEFAULT = BY_DEFAULT;
     public static final Comparator<Stage> BY_STAGE_TITLE_ASC = compareStageBy(true, true);
     public static final Comparator<Stage> BY_STAGE_TITLE_DESC = compareStageBy(true, false);
-    public static final Comparator<Stage> BY_STAGE_DATE_ASC = compareStageBy(false, true);
-    public static final Comparator<Stage> BY_STAGE_DATE_DESC = BY_STAGE_DEFAULT;
+    public static final Comparator<Stage> BY_STAGE_ID_ASC = compareStageBy(false, true);
+    public static final Comparator<Stage> BY_STAGE_ID_DESC = BY_STAGE_DEFAULT;
 
-    private static Comparator<Goal> compareGoalBy(boolean titleordate, final boolean order) {
+    private static Comparator<Goal> compareGoalBy(boolean title, final boolean asc) {
         Comparator<Goal> res = BY_GOAL_DEFAULT;
-        if (titleordate) {
+        if (title) {
             res = new Comparator<Goal>() {
                 @Override
                 public int compare(Goal o1, Goal o2) {
-                    if (order) {
+                    if (asc) {
                         return o1.getTitle().compareTo(o2.getTitle());
                     } else {
                         return o2.getTitle().compareTo(o1.getTitle());
@@ -40,7 +40,7 @@ public final class Comparators {
                 }
             };
         } else {
-            if (order) {
+            if (asc) {
                 res = new Comparator<Goal>() {
                     @Override
                     public int compare(Goal o1, Goal o2) {
@@ -53,13 +53,13 @@ public final class Comparators {
         return res;
     }
 
-    private static Comparator<Stage> compareStageBy(boolean titleorid, final boolean order) {
+    private static Comparator<Stage> compareStageBy(boolean title, final boolean asc) {
         Comparator<Stage> res = BY_STAGE_DEFAULT;
-        if (titleorid) {
+        if (title) {
             res = new Comparator<Stage>() {
                 @Override
                 public int compare(Stage o1, Stage o2) {
-                    if (order) {
+                    if (asc) {
                         return o1.getTitle().compareTo(o2.getTitle());
                     } else {
                         return o2.getTitle().compareTo(o1.getTitle());
@@ -67,7 +67,7 @@ public final class Comparators {
                 }
             };
         } else {
-            if (order) {
+            if (asc) {
                 res = new Comparator<Stage>() {
                     @Override
                     public int compare(Stage o1, Stage o2) {

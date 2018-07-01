@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initRecyclerView() {
         List<Goal> list = provider.getGoals();
-        Collections.sort(provider.getGoals(), Comparators.BY_GOAL_DATE_ASC);
+        Collections.sort(list, Comparators.BY_GOAL_ID_DESC);
 
         adapter = new GoalsAdapter(list);
         if (provider.getGoalsCount() == 0) {

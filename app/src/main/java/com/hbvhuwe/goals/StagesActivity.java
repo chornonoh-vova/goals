@@ -116,7 +116,7 @@ public class StagesActivity extends BaseActivity implements StagesAdapter.StageC
     @Override
     protected void initRecyclerView() {
         List<Stage> list = provider.getStages(goalId);
-        Collections.sort(list, Comparators.BY_STAGE_DATE_ASC);
+        Collections.sort(list, Comparators.BY_STAGE_ID_DESC);
 
         adapter = new StagesAdapter(list, this);
         if (provider.getStagesCount(goalId) == 0) {
