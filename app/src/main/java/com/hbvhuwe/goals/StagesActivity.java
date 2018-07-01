@@ -11,8 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.hbvhuwe.goals.adapters.SortAdapter;
 import com.hbvhuwe.goals.adapters.StagesAdapter;
 import com.hbvhuwe.goals.model.Goal;
 import com.hbvhuwe.goals.model.Model;
@@ -66,8 +68,11 @@ public class StagesActivity extends BaseActivity implements StagesAdapter.StageC
         }
 
         initGoal();
+        Spinner sort = findViewById(R.id.sort_spinner);
+        sort.setOnItemSelectedListener(listener);
 
-        initRecyclerView();
+        final SortAdapter adapter = new SortAdapter(getApplicationContext());
+        sort.setAdapter(adapter);
 
 
         closeEditing.setOnClickListener(new View.OnClickListener() {
@@ -116,13 +121,32 @@ public class StagesActivity extends BaseActivity implements StagesAdapter.StageC
     @Override
     protected void initRecyclerView() {
         List<Stage> list = provider.getStages(goalId);
-        Collections.sort(list, Comparators.BY_STAGE_ID_DESC);
 
+        switch (sortOrder) {
+            case 0:
+                Collections.sort(list, Comparators.BY_STAGE_ID_DESC);
+                break;
+            case 1:
+                Collections.sort(list, Comparators.BY_STAGE_ID_ASC);
+                break;
+            case 2:
+                Collections.sort(list, Comparators.BY_STAGE_TITLE_DESC);
+                break;
+            case 3:
+                Collections.sort(list, Comparators.BY_STAGE_TITLE_ASC);
+                break;
+            default:
+                Collections.sort(list, Comparators.BY_STAGE_ID_DESC);
+                break;
+        }
+        
         adapter = new StagesAdapter(list, this);
         if (provider.getStagesCount(goalId) == 0) {
             findViewById(R.id.stages_list_empty).setVisibility(View.VISIBLE);
+            findViewById(R.id.sort_layout).setVisibility(View.GONE);
         } else {
             findViewById(R.id.stages_list_empty).setVisibility(View.GONE);
+            findViewById(R.id.sort_layout).setVisibility(View.VISIBLE);
         }
 
         super.initRecyclerView();
