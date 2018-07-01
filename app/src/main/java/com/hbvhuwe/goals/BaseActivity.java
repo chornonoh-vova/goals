@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.hbvhuwe.goals.adapters.BaseAdapter;
 import com.hbvhuwe.goals.providers.DataProvider;
@@ -29,6 +30,21 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeLis
     protected RecyclerView recyclerView;
     protected BaseAdapter adapter;
     protected CoordinatorLayout coordinatorLayout;
+
+    protected int sortOrder = 0;
+
+    protected AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            sortOrder = position;
+            initRecyclerView();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

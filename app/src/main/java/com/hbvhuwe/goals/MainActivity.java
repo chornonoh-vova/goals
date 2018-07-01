@@ -9,15 +9,20 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.hbvhuwe.goals.adapters.GoalsAdapter;
+import com.hbvhuwe.goals.adapters.SortAdapter;
 import com.hbvhuwe.goals.model.Goal;
 import com.hbvhuwe.goals.model.Model;
 import com.hbvhuwe.goals.providers.SQLiteProvider;
 import com.hbvhuwe.goals.providers.db.DbHelper;
+import com.hbvhuwe.goals.util.Comparators;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
     @Override
@@ -39,6 +44,12 @@ public class MainActivity extends BaseActivity {
         FloatingActionButton addButton = findViewById(R.id.add_goal);
         coordinatorLayout = findViewById(R.id.main_layout);
 
+        Spinner sort = findViewById(R.id.sort_spinner);
+        sort.setOnItemSelectedListener(listener);
+
+        final SortAdapter adapter = new SortAdapter(getApplicationContext());
+        sort.setAdapter(adapter);
+
         //initRecyclerView();
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -50,18 +61,34 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        initRecyclerView();
-    }
-
-    @Override
     protected void initRecyclerView() {
-        adapter = new GoalsAdapter(provider.getGoals());
-        if (provider.getGoals().isEmpty()) {
+        List<Goal> list = provider.getGoals();
+
+        switch (sortOrder) {
+            case 0:
+                Collections.sort(list, Comparators.BY_GOAL_ID_DESC);
+                break;
+            case 1:
+                Collections.sort(list, Comparators.BY_GOAL_ID_ASC);
+                break;
+            case 2:
+                Collections.sort(list, Comparators.BY_GOAL_TITLE_DESC);
+                break;
+            case 3:
+                Collections.sort(list, Comparators.BY_GOAL_TITLE_ASC);
+                break;
+            default:
+                Collections.sort(list, Comparators.BY_GOAL_ID_DESC);
+                break;
+        }
+
+        adapter = new GoalsAdapter(list);
+        if (provider.getGoalsCount() == 0) {
             findViewById(R.id.goals_list_empty).setVisibility(View.VISIBLE);
+            findViewById(R.id.sort_layout).setVisibility(View.GONE);
         } else {
-            findViewById(R.id.goals_list_empty).setVisibility(View.INVISIBLE);
+            findViewById(R.id.goals_list_empty).setVisibility(View.GONE);
+            findViewById(R.id.sort_layout).setVisibility(View.VISIBLE);
         }
 
         super.initRecyclerView();
